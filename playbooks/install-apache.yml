@@ -1,0 +1,14 @@
+---
+
+- name: "Install Apache"
+  hosts: apache
+  gather_facts: no
+  tasks:
+    - name: "Installation de Apache"
+      yum: name=httpd,php,php-mysql,php-xml state=installed
+
+    - name: "Démarrage du service"
+      service: name=httpd state=started
+
+    - name: "Dépot d'un fichier d'identifiant"
+      copy: content="Vous êtes connecté sur la machine {{inventory_hostname}}" dest=/var/www/html/info.html owner=apache group=apache

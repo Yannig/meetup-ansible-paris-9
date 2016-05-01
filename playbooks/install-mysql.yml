@@ -1,0 +1,18 @@
+---
+
+- name: "Install MariaDB"
+  hosts: mysql
+  gather_facts: no
+  tasks:
+    - name: "Installation de MariaDB"
+      yum: name=mariadb-server,MySQL-python state=installed
+
+    - name: "Démarrage du service"
+      service: name=mariadb state=started
+
+    - name: "Création base mediawiki"
+      mysql_db: name=mediawiki state=present
+
+    - name: "Création de l'utilisateur mysql pour mediawiki"
+      mysql_user: name=mediawiki password=mediawiki host={{item}}.demo priv=mediawiki.*:ALL state=present
+      with_items: "{{groups['apache']}}"

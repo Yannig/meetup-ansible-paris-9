@@ -1,0 +1,8 @@
+[mysql]
+dock-mysql
+
+[apache]
+dock-apache
+
+[all:vars]
+ansible_connection=docker

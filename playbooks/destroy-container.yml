@@ -1,0 +1,14 @@
+---
+
+- name: "Suppression container docker"
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: "Suppression des containers"
+      docker: name="{{item}}" state=absent image=none stop_timeout=1
+      with_items: "{{groups['all']}}"
+
+    - name: "Suppression du network demo"
+      shell: docker network rm demo || echo "Does not exist"
+      register: _
+      changed_when: "'not found' not in _.stderr"

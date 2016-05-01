@@ -1,0 +1,22 @@
+---
+
+- name: "Lancement déploiement de mediawiki"
+  hosts: apache
+  gather_facts: no
+  vars:
+    html_path: "/var/www/html"
+    wiki_version: "mediawiki-1.26.2"
+    wiki_archive: "{{wiki_version}}.tar.gz"
+    wiki_path: "{{html_path}}/{{wiki_version}}"
+  tasks:
+    - name: "Décompression de l'archive de mediawiki"
+      unarchive: src={{playbook_dir|dirname}}/{{wiki_archive}} dest={{html_path}} creates={{wiki_path}}/README
+    - name: "Application des droits"
+      file: path={{wiki_path}} owner=apache group=apache recurse=yes
+    - name: "Création lien symbolique"
+      file: state=link src={{wiki_path}} path={{html_path}}/mediawiki
+    - name: "Installation de mediawiki"
+      shell: php install.php --scriptpath /mediawiki --dbname mediawiki --lang fr --dbuser mediawiki --dbpass mediawiki --pass @dm1n --dbserver dock-mysql Demo admin
+      args:
+        chdir: "{{wiki_path}}/maintenance"
+        creates: "{{wiki_path}}/LocalSettings.php"

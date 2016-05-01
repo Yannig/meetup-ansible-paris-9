@@ -1,0 +1,26 @@
+---
+
+- name: "Création de l'image + container docker"
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: "Construction des images centos"
+      docker_image: path="{{playbook_dir}}/{{item}}" name="{{item}}" state=build
+      with_items: [ "centos-systemd", "centos6" ]
+
+    - name: "Création du network demo"
+      shell: docker network inspect demo || docker network create demo
+      register: _
+      changed_when: "'No such network' in _.stderr"
+    
+    - name: "Creation des containers"
+      docker:
+        name: "{{item}}"
+        hostname: "{{item}}"
+        net: "demo"
+        image: "centos-systemd"
+        volumes: [ "/sys/fs/cgroup:/sys/fs/cgroup:ro" ]
+        state: "started"
+        privileged: "yes"
+      when: item != "localhost"
+      with_items: "{{groups['all']}}"

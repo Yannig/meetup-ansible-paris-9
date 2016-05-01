@@ -1,0 +1,7 @@
+---
+
+- include: "create-docker.yml"
+- include: "install-mysql.yml"
+- include: "install-apache.yml"
+- include: "install-lb.yml"
+- include: "deploy-mediawiki.yml"
