@@ -9,8 +9,11 @@
   tasks:
     - name: "Installation haproxy"
       yum: name=haproxy state=installed
+      environment: "{{proxy_env}}"
+
     - name: "Préparation arborescence haproxy"
       file: path=/etc/haproxy state=directory
+
     - name: "Dépot fichier de configuration haproxy"
       template: src=haproxy/haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg
       notify: "Redémarrage haproxy"

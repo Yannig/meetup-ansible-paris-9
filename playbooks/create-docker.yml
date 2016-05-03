@@ -4,9 +4,9 @@
   hosts: localhost
   gather_facts: no
   tasks:
-    #- name: "Construction des images centos"
-      #docker_image: path="{{playbook_dir}}/{{item}}" name="{{item}}" state=build
-      #with_items: [ "centos-systemd", "centos6" ]
+    - name: "Construction des images centos"
+      docker_image: path="{{playbook_dir}}/{{item}}" name="{{item}}" state=build
+      with_items: [ "centos-systemd" ]
 
     - name: "Création du network demo"
       shell: docker network inspect demo || docker network create demo
@@ -18,7 +18,7 @@
         name: "{{item}}"
         hostname: "{{item}}"
         net: "demo"
-        image: "centos"
+        image: "centos-systemd"
         volumes: [ "/sys/fs/cgroup:/sys/fs/cgroup:ro" ]
         state: "started"
         privileged: "yes"

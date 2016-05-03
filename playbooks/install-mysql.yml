@@ -6,6 +6,7 @@
   tasks:
     - name: "Installation de MariaDB"
       yum: name=mariadb-server,MySQL-python state=installed
+      environment: "{{proxy_env}}"
 
     - name: "Démarrage du service"
       service: name=mariadb state=started
