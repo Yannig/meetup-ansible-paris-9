@@ -13,6 +13,7 @@ RUN systemctl mask dev-mqueue.mount dev-hugepages.mount \
 
 ADD dbus.service /etc/systemd/system/dbus.service
 RUN systemctl enable dbus.service
+RUN systemctl disable getty@tty1
 
 #RUN yum -y install passwd; yum clean all
 #RUN echo root | passwd --stdin root
