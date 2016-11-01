@@ -4,3 +4,5 @@ proxy_env: {}
 #proxy_env:
   #http_proxy:  "http://xxx:3128"
   #https_proxy: "http://xxx:3128"
+
+docker_network: "demo"

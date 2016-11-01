@@ -6,7 +6,7 @@
   tasks:
     - name: "Installation de Apache"
       yum: name=httpd,php,php-mysql,php-xml state=installed
-      environment: "{{proxy_env}}"
+      environment: "{{proxy_env|default({})}}"
 
     - name: "Démarrage du service"
       service: name=httpd state=started

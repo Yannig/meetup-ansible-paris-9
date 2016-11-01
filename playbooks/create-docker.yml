@@ -8,8 +8,8 @@
       docker_image: path="{{playbook_dir}}/{{item}}" name="{{item}}" state=build
       with_items: [ "centos-systemd" ]
 
-    - name: "Création du network demo"
-      shell: docker network inspect demo || docker network create demo
+    - name: "Création du network"
+      shell: docker network inspect {{docker_network}} || docker network create {{docker_network}}
       register: _
       changed_when: "'No such network' in _.stderr"
     
@@ -17,7 +17,7 @@
       docker:
         name: "{{item}}"
         hostname: "{{item}}"
-        net: "demo"
+        net: "{{docker_network}}"
         image: "centos-systemd"
         volumes: [ "/sys/fs/cgroup:/sys/fs/cgroup:ro" ]
         state: "started"

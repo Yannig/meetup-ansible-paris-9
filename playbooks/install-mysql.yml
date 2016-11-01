@@ -15,5 +15,5 @@
       mysql_db: name=mediawiki state=present
 
     - name: "Création de l'utilisateur mysql pour mediawiki"
-      mysql_user: name=mediawiki password=mediawiki host={{item}}.demo priv=mediawiki.*:ALL state=present
+      mysql_user: name=mediawiki password=mediawiki host={{item}}.{{docker_network}} priv=mediawiki.*:ALL state=present
       with_items: "{{groups['apache']}}"

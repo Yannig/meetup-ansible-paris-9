@@ -8,7 +8,7 @@
       docker: name="{{item}}" state=absent image=none stop_timeout=1
       with_items: "{{groups['all']}}"
 
-    - name: "Suppression du network demo"
-      shell: docker network rm demo || echo "Does not exist"
+    - name: "Suppression du network"
+      shell: docker network rm {{docker_network}} || echo "Does not exist"
       register: _
       changed_when: "'not found' not in _.stderr"
