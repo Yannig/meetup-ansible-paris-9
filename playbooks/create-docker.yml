@@ -9,15 +9,15 @@
       with_items: [ "centos-systemd" ]
 
     - name: "Création du network"
-      shell: docker network inspect {{docker_network}} || docker network create {{docker_network}}
-      register: _
-      changed_when: "'No such network' in _.stderr"
+      docker_network: name={{docker_network}}
     
     - name: "Creation des containers"
-      docker:
+      docker_container:
         name: "{{item}}"
         hostname: "{{item}}"
-        net: "{{docker_network}}"
+        networks:
+          - name: "{{docker_network}}"
+        network_mode: "{{docker_network}}"
         image: "centos-systemd"
         volumes: [ "/sys/fs/cgroup:/sys/fs/cgroup:ro" ]
         state: "started"
