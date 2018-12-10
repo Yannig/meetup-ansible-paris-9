@@ -9,15 +9,15 @@
       with_items: [ "centos-systemd" ]
 
     - name: "Création du network"
-      docker_network: name={{docker_network}}
+      docker_network: name={{docker_network_name}}
     
     - name: "Creation des containers"
       docker_container:
         name: "{{item}}"
         hostname: "{{item}}"
         networks:
-          - name: "{{docker_network}}"
-        network_mode: "{{docker_network}}"
+          - name: "{{docker_network_name}}"
+        network_mode: "{{docker_network_name}}"
         image: "centos-systemd"
         volumes: [ "/sys/fs/cgroup:/sys/fs/cgroup:ro" ]
         state: "started"

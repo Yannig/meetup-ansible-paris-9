@@ -9,6 +9,6 @@
       with_items: "{{groups['all']}}"
 
     - name: "Suppression du network"
-      shell: docker network rm {{docker_network}} || echo "Does not exist"
+      shell: docker network rm {{docker_network_name}} || echo "Does not exist"
       register: _
       changed_when: "'not found' not in _.stderr"
